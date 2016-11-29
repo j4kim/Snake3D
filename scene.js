@@ -32,6 +32,10 @@ function initShaderParameters(prg){
 	glContext.enableVertexAttribArray(prg.colorAttribute);
 	prg.pMatrixUniform          = glContext.getUniformLocation(prg, 'uPMatrix');
 	prg.mvMatrixUniform         = glContext.getUniformLocation(prg, 'uMVMatrix');
+
+    prg.uSize = glContext.getUniformLocation(prg, "uSize");
+
+    glContext.uniform1f(prg.uSize,SIZE);
 }
 
 function initScene(){
