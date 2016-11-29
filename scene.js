@@ -10,6 +10,7 @@ var serpent;
 initWebGL();
 
 var direction = [1,0,0];
+var ANIMATION;
 
 window.onkeydown = handleKeyPressed;
 
@@ -61,7 +62,7 @@ function initScene(){
 	sceneObjects.push(new Grid(SIZE));
 
 
-    serpent = new Serpent([0,0,0],24);
+    serpent = new Serpent([-1,0,0],24);
 	sceneObjects.push(serpent);
 
 	glContext.clearColor(0.2, 0.2, 0.2, 1.0);
@@ -71,7 +72,9 @@ function initScene(){
 }
 
 function animate(){
-    animation = setInterval(function(){ serpent.move(direction[0],direction[1],direction[2]) }, 500);
+    ANIMATION = setInterval(function(){
+        serpent.move(direction[0],direction[1],direction[2])
+    }, 500);
 }
 
 function drawScene(){
