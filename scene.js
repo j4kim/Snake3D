@@ -9,16 +9,26 @@ var serpent;
 
 initWebGL();
 
+var direction = [1,0,0];
+
 window.onkeydown = handleKeyPressed;
 
 function handleKeyPressed(ev){
     switch(ev.keyCode){
-        case 87: serpent.move(0,0,-1); break;//w
-        case 65:case 37: serpent.move(-1,0,0); break;//a ou left
-        case 83: serpent.move(0,0,1); break;//s
-        case 68:case 39:serpent.move(1,0,0); break;//d ou right
-        case 38:serpent.move(0,1,0); break;//up
-        case 40:serpent.move(0,-1,0); break;//down
+        case 87: //w
+            direction = [0,0,-1]; break;
+        case 65: //a
+        case 37: //left
+            direction = [-1,0,0]; break;
+        case 83: //s
+            direction = [0,0,1]; break;
+        case 68: //d
+        case 39: //right
+            direction = [1,0,0]; break;
+        case 38: //up
+            direction = [0,1,0]; break;
+        case 40: //down
+            direction = [0,-1,0]; break;
         default: break;
     }
     //console.log(ev.keyCode);
@@ -55,7 +65,13 @@ function initScene(){
 	sceneObjects.push(serpent);
 
 	glContext.clearColor(0.2, 0.2, 0.2, 1.0);
+
+    animate();
   
+}
+
+function animate(){
+    animation = setInterval(function(){ serpent.move(direction[0],direction[1],direction[2]) }, 500);
 }
 
 function drawScene(){
