@@ -37,7 +37,7 @@ class Grid extends Drawable{
 		super();
 		this.size = size;
 		this.init();
-		this.mode=glContext.TRIANGLES;
+		this.mode=4;
 	}
 	
 	init(){
@@ -185,9 +185,37 @@ class Cube extends Drawable{
             this.indices.push(i);
         }
 
-		
+
 		this.vertexBuffer = getVertexBufferWithVertices(this.vertices);
 		this.colorBuffer  = getVertexBufferWithVertices(this.colors);
 		this.indexBuffer  = getIndexBufferWithIndices(this.indices);
 	}
+}
+
+class Serpent{
+    constructor(start, size){
+        this.size=size;
+        this.elements=[];
+        var x=start[0],y=start[1],z=start[2];
+        for(var i=0;i<size;i++){
+            this.elements.push(new Cube(x-i,y,z));
+        }
+    }
+
+    move(i,j,k){
+        var queue = this.elements.pop();
+        var tete = this.elements[0];
+        queue.x = tete.x + i;
+        queue.y = tete.y + j;
+        queue.z = tete.z + k;
+        queue.init();
+        this.elements.unshift(queue);
+    }
+
+
+    draw(){
+        this.elements.forEach(function(elem){
+           elem.draw();
+        });
+    }
 }
