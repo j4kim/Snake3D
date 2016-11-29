@@ -81,7 +81,7 @@ class Cube extends Drawable{
 		this.x=x;
 		this.y=y;
 		this.z=z;
-		this.mode = 3;
+		this.mode = 6;
 		this.init();
 	}
 	
