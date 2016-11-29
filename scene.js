@@ -25,9 +25,10 @@ function initScene(){
 
 	mat4.translate(pMatrix,pMatrix,vec3.fromValues(-SIZE/2, -SIZE/2, -1.671*SIZE));
 	
+	sceneObjects.push(new Grid(SIZE));
+	
 	glContext.enable(glContext.DEPTH_TEST);
 	
-	sceneObjects.push(new Grid(SIZE));
 	sceneObjects.push(new Cube(0,0,0));
 	sceneObjects.push(new Cube(1,0,0));
 	sceneObjects.push(new Cube(2,0,0));
