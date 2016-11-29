@@ -16,8 +16,9 @@
 			uniform mat4 uPMatrix;
 			varying vec4 vColor;
 			void main(void) {
-				vColor = aColor;
-				//gl_PointSize=12.0;
+			    float a= aVertexPosition.z/12.0 + 0.5;
+				vColor = aColor * (vec4(a,a,a,1.0));
+				gl_PointSize=12.0;
 				gl_PointSize=(aVertexPosition.z+8.0)*1.0;
 				gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 			}            

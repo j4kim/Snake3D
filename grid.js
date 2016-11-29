@@ -180,7 +180,7 @@ class Cube extends Drawable{
 		this.indices.push(4,5,6,6,4,7); // haut
 		this.indices.push(7,6,3,3,6,2); // devant
 		*/
-        console.log(this.vertices.length/3)
+
         for(var i=0;i<6*6;i++){
             this.indices.push(i);
         }
