@@ -37,7 +37,7 @@ class Grid extends Drawable{
 		super();
 		this.size = size;
 		this.init();
-		this.mode=3;
+		this.mode=glContext.TRIANGLES;
 	}
 	
 	init(){
@@ -45,30 +45,53 @@ class Grid extends Drawable{
 		this.indices = [];
 		this.vertices = [];
 		this.colors = [];
-		
+
 		var s=this.size;
-	 
-		this.vertices.push(0,0,0);    
-		this.vertices.push(s,0,0);   
-		this.vertices.push(s,0,s);
-		this.vertices.push(0,0,s);  
-		this.vertices.push(0,s,0);
-		this.vertices.push(s,s,0);  
-		this.vertices.push(s,s,s); 
-		this.vertices.push(0,s,s); 
 
-		this.colors.push(1.0, 0.0, 0.0, 1.0);
-		this.colors.push(1.0, 1.0, 0.0, 1.0);
-		this.colors.push(0.0, 1.0, 0.0, 1.0);
-		this.colors.push(0.0, 0.0, 0.0, 1.0);
-		this.colors.push(1.0, 0.0, 1.0, 1.0);
-		this.colors.push(1.0, 1.0, 1.0, 1.0);
-		this.colors.push(0.0, 1.0, 1.0, 1.0);
-		this.colors.push(0.0, 0.0, 1.0, 1.0);
+        var x = 0;
+        var y = 0;
+        var z = 0;
 
-		this.indices.push(0,1,2,3,0,4,5,6,7,4,5,1,2,6,7,3);
+        var v0=[x+0, y+0, z+0],
+            v1=[x+s, y+0, z+0],
+            v2=[x+s, y+0, z+s],
+            v3=[x+0, y+0, z+s],
+            v4=[x+0, y+s, z+0],
+            v5=[x+s, y+s, z+0],
+            v6=[x+s, y+s, z+s],
+            v7=[x+0, y+s, z+s];
 
-		this.vertexBuffer = getVertexBufferWithVertices(this.vertices);
+        this.vertices = [].concat(
+            v0,v1,v2,v0,v2,v3, //sol
+            v0,v4,v7,v0,v7,v3, // gauche
+            v0,v1,v5,v0,v5,v4, // fond
+            v1,v2,v6,v1,v6,v5, // droite
+            v4,v5,v6,v6,v4,v7  // haut
+        );
+
+        var a=1.0;
+        var red =    [1.0, 0.0, 0.0, a];
+        var yellow = [1.0, 1.0, 0.0, a];
+        var green  = [0.0, 1.0, 0.0, a];
+        var black  = [0.0, 0.0, 0.0, a];
+        var violet = [1.0, 0.0, 1.0, a];
+        var white  = [1.0, 1.0, 1.0, a];
+        var cyan   = [0.0, 1.0, 1.0, a];
+        var blue   = [0.0, 0.0, 1.0, a];
+
+        [red,yellow,green,violet,cyan,blue].forEach(function(color){
+            // chaque face a 6 vertices, on applique cette couleur six fois
+            for(var i=0;i<6;i++){
+                this.colors = this.colors.concat(color);
+            }
+        },this);
+
+        for(var i=0;i<6*5;i++){
+            this.indices.push(i);
+        }
+
+
+        this.vertexBuffer = getVertexBufferWithVertices(this.vertices);
 		this.colorBuffer  = getVertexBufferWithVertices(this.colors);
 		this.indexBuffer  = getIndexBufferWithIndices(this.indices);
 	}
