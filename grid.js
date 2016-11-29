@@ -226,9 +226,11 @@ class Serpent{
             console.log("out")
         }
         */
-        return this.elements.some(function(elem){
+        var snakeCollision = this.elements.some(function(elem){
             return (elem.x==e.x && elem.y==e.y && elem.z==e.z)
-        }) || !(e.x<SIZE && e.x >= 0 && e.y<SIZE && e.y >= 0 && e.z<SIZE && e.z >= 0);
+        });
+        var wallCollision = !(e.x<SIZE && e.x >= 0 && e.y<SIZE && e.y >= 0 && e.z<SIZE && e.z >= 0);
+        return snakeCollision || wallCollision;
     }
 
     move(i,j,k){
@@ -240,7 +242,7 @@ class Serpent{
 
         // check for collisions
         if(this.collision(queue)){
-            console.log("collision",ANIMATION);
+            console.log("collision");
             clearInterval(ANIMATION);
         }
 
