@@ -2,10 +2,38 @@
 var mvMatrix = mat4.create();
 var pMatrix = mat4.create();
 
-var SIZE = 6;
+var SIZE = 7;
 var sceneObjects = [];
 
+var serpent;
+
 initWebGL();
+
+var direction = [1,0,0];
+var ANIMATION;
+
+window.onkeydown = handleKeyPressed;
+
+function handleKeyPressed(ev){
+    switch(ev.keyCode){
+        case 87: //w
+            direction = [0,0,-1]; break;
+        case 65: //a
+        case 37: //left
+            direction = [-1,0,0]; break;
+        case 83: //s
+            direction = [0,0,1]; break;
+        case 68: //d
+        case 39: //right
+            direction = [1,0,0]; break;
+        case 38: //up
+            direction = [0,1,0]; break;
+        case 40: //down
+            direction = [0,-1,0]; break;
+        default: break;
+    }
+    //console.log(ev.keyCode);
+}
 
 
 function initShaderParameters(prg){
@@ -15,6 +43,10 @@ function initShaderParameters(prg){
 	glContext.enableVertexAttribArray(prg.colorAttribute);
 	prg.pMatrixUniform          = glContext.getUniformLocation(prg, 'uPMatrix');
 	prg.mvMatrixUniform         = glContext.getUniformLocation(prg, 'uMVMatrix');
+
+    prg.uSize = glContext.getUniformLocation(prg, "uSize");
+
+    glContext.uniform1f(prg.uSize,SIZE);
 }
 
 function initScene(){
@@ -24,51 +56,32 @@ function initScene(){
 	mat4.identity(mvMatrix);
 
 	mat4.translate(pMatrix,pMatrix,vec3.fromValues(-SIZE/2, -SIZE/2, -1.671*SIZE));
-	
-	glContext.enable(glContext.DEPTH_TEST);
+
+    glContext.enable(glContext.DEPTH_TEST);
 	
 	sceneObjects.push(new Grid(SIZE));
-	sceneObjects.push(new Cube(0,0,0));
-	sceneObjects.push(new Cube(1,0,0));
-	sceneObjects.push(new Cube(2,0,0));
-	sceneObjects.push(new Cube(3,0,0));
-	sceneObjects.push(new Cube(3,1,0));
-	sceneObjects.push(new Cube(4,1,0));
-	sceneObjects.push(new Cube(5,1,0));
-	sceneObjects.push(new Cube(5,2,0));
-	sceneObjects.push(new Cube(5,3,0));
-	sceneObjects.push(new Cube(5,4,0));
-	sceneObjects.push(new Cube(5,4,1));
-	sceneObjects.push(new Cube(5,4,2));
-	sceneObjects.push(new Cube(5,4,3));
-	sceneObjects.push(new Cube(4,4,3));
-	sceneObjects.push(new Cube(3,4,3));
-	sceneObjects.push(new Cube(2,4,3));
-	sceneObjects.push(new Cube(2,4,4));
-	sceneObjects.push(new Cube(2,3,4));
-	sceneObjects.push(new Cube(1,3,4));
-	sceneObjects.push(new Cube(1,2,4));
-	sceneObjects.push(new Cube(0,2,4));
-	sceneObjects.push(new Cube(0,2,5));
-	sceneObjects.push(new Cube(0,1,5));
-	sceneObjects.push(new Cube(0,0,5));
-	sceneObjects.push(new Cube(1,0,5));
-	sceneObjects.push(new Cube(2,0,5));
-	sceneObjects.push(new Cube(3,0,5));
-	sceneObjects.push(new Cube(4,0,5));
-	sceneObjects.push(new Cube(5,0,5));
-	sceneObjects.push(new Cube(5,0,4));
-	sceneObjects.push(new Cube(5,0,3));
+
+
+    serpent = new Serpent([-1,0,0],24);
+	sceneObjects.push(serpent);
 
 	glContext.clearColor(0.2, 0.2, 0.2, 1.0);
+
+    animate();
   
+}
+
+function animate(){
+    ANIMATION = setInterval(function(){
+        serpent.move(direction[0],direction[1],direction[2])
+    }, 500);
 }
 
 function drawScene(){
 	glContext.clear(glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
 
 	glContext.uniformMatrix4fv(prg.pMatrixUniform, false, pMatrix);
-	
+
 	sceneObjects.forEach(function(o){
 		o.draw();
 	});

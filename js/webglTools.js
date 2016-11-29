@@ -89,7 +89,8 @@ requestAnimFrame = (function() {
 /**
  * Render Loop: frame rate and scene drawing.
  */
-function renderLoop() {
+function renderLoop(timeStamp) {
+    //console.log(timeStamp);
     requestAnimFrame(renderLoop);
     drawScene();
 }
