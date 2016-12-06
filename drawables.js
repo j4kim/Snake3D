@@ -129,3 +129,22 @@ class Element extends Cube{
 		this.init();
 	}
 }
+
+class Bonus extends Element{
+    init2(){
+			[white,white,white,white,white,white].forEach(function(color){
+            // chaque face a 6 vertices, on applique cette couleur six fois
+            for(var i=0;i<6;i++){
+                this.colors = this.colors.concat(color);
+            }
+        },this);
+
+        for(var i=0;i<this.vertices.length/3;i++){
+            this.indices.push(i);
+        }
+
+        this.vertexBuffer = getVertexBufferWithVertices(this.vertices);
+        this.colorBuffer  = getVertexBufferWithVertices(this.colors);
+        this.indexBuffer  = getIndexBufferWithIndices(this.indices);
+    }
+}

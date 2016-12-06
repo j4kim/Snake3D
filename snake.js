@@ -17,7 +17,7 @@ class Snake{
         this.direction=dir;
         this.animate();
 
-        this.bonus = new Element(randint(SIZE),randint(SIZE),randint(SIZE));
+        this.bonus = new Bonus(randint(SIZE),randint(SIZE),randint(SIZE));
     }
 
     collision(e){
@@ -40,22 +40,28 @@ class Snake{
         queue.y = tete.y + this.direction[1];
         queue.z = tete.z + this.direction[2];
 
-
         // check for collisions
         if(this.collision(queue)){
             console.log("collision");
             clearInterval(ANIMATION);
         }
         if(this.onBonus(queue)){
-            console.log("bonus");
-            this.bonus.x = randint(SIZE);
-            this.bonus.y = randint(SIZE);
-            this.bonus.z = randint(SIZE);
+            var snakeCollision;
+            // todo: revoir cette detection en choisissant parmis une liste de cases vides
+            do{
+                this.bonus.x = randint(SIZE);
+                this.bonus.y = randint(SIZE);
+                this.bonus.z = randint(SIZE);
+                snakeCollision = this.elements.some(function(elem){
+                    return (elem.x==this.bonus.x && elem.y==this.bonus.y && elem.z==this.bonus.z)
+                });
+            }while(!snakeCollision);
             this.bonus.init();
             this.elements.push(new Element(old.x,old.y,old.z));
         }
 
         queue.init();
+
         // ajoute l'élément au début de la liste
         this.elements.unshift(queue);
     }
@@ -66,7 +72,6 @@ class Snake{
             elem.draw();
         });
     }
-
 
     animate(){
         var snake=this;
