@@ -9,12 +9,10 @@ var serpent;
 
 initWebGL();
 
-var direction = [1,0,0];
-var ANIMATION;
-
 window.onkeydown = handleKeyPressed;
 
 function handleKeyPressed(ev){
+    var direction = [1,0,0];
     switch(ev.keyCode){
         case 87: //w
             direction = [0,0,-1]; break;
@@ -32,6 +30,7 @@ function handleKeyPressed(ev){
             direction = [0,-1,0]; break;
         default: break;
     }
+    serpent.direction = direction;
     //console.log(ev.keyCode);
 }
 
@@ -61,27 +60,16 @@ function initScene(){
 	
 	sceneObjects.push(new Grid(SIZE));
 
-
-    serpent = new Snake([-1,0,0],24);
+    serpent = new Snake([-1,0,0]);
 	sceneObjects.push(serpent);
 
 	glContext.clearColor(0.2, 0.2, 0.2, 1.0);
-
-    animate();
   
-}
-
-function animate(){
-    ANIMATION = setInterval(function(){
-        serpent.move(direction[0],direction[1],direction[2])
-    }, 500);
 }
 
 function drawScene(){
 	glContext.clear(glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
-
 	glContext.uniformMatrix4fv(prg.pMatrixUniform, false, pMatrix);
-
 	sceneObjects.forEach(function(o){
 		o.draw();
 	});

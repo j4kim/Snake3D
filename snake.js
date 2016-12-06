@@ -1,24 +1,16 @@
+var ANIMATION;
 
 class Snake{
-    constructor(start, size){
+    constructor(start=[0,0,0], size=3, dir=[1,0,0]){
         this.size=size;
         this.elements=[];
         var x=start[0],y=start[1],z=start[2];
         for(var i=0;i<size;i++){
-            this.elements.push(new Element(x-i,y,z));
+            this.elements.push(new Element(x,y,z));
         }
 
-        // initialisation d'un tableau 3d de dimension size
-        this.taken = [];
-        for(var i=0;i<SIZE;i++){
-            this.taken[i]=[];
-            for(var j=0;j<SIZE;j++){
-                this.taken[i][j]=[];
-                for(var k=0;k<SIZE;k++){
-                    this.taken[i][j][k] = false;
-                }
-            }
-        }
+        this.direction=dir;
+        this.animate();
     }
 
     collision(e){
@@ -29,12 +21,12 @@ class Snake{
         return snakeCollision || wallCollision;
     }
 
-    move(i,j,k){
+    move(){
         var queue = this.elements.pop();
         var tete = this.elements[0];
-        queue.x = tete.x + i;
-        queue.y = tete.y + j;
-        queue.z = tete.z + k;
+        queue.x = tete.x + this.direction[0];
+        queue.y = tete.y + this.direction[1];
+        queue.z = tete.z + this.direction[2];
 
         // check for collisions
         if(this.collision(queue)){
@@ -51,5 +43,13 @@ class Snake{
         this.elements.forEach(function(elem){
             elem.draw();
         });
+    }
+
+
+    animate(){
+        var snake=this;
+        ANIMATION = setInterval(function(){
+            snake.move();
+        }, 500);
     }
 }
