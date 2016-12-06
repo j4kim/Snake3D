@@ -60,7 +60,7 @@ function initScene(){
 	
 	sceneObjects.push(new Grid(SIZE));
 
-    serpent = new Snake([-1,0,0]);
+    serpent = new Snake([-1,0,0],2);
 	sceneObjects.push(serpent);
 
 	glContext.clearColor(0.2, 0.2, 0.2, 1.0);

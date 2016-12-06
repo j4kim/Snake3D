@@ -1,6 +1,11 @@
 var ANIMATION;
 
+function randint(max){
+    return Math.floor(Math.random()*max);
+}
+
 class Snake{
+
     constructor(start=[0,0,0], size=3, dir=[1,0,0]){
         this.size=size;
         this.elements=[];
@@ -11,6 +16,8 @@ class Snake{
 
         this.direction=dir;
         this.animate();
+
+        this.bonus = new Element(randint(SIZE),randint(SIZE),randint(SIZE));
     }
 
     collision(e){
@@ -21,17 +28,31 @@ class Snake{
         return snakeCollision || wallCollision;
     }
 
+    onBonus(e){
+        return e.x == this.bonus.x && e.y == this.bonus.y && e.z == this.bonus.z;
+    }
+
     move(){
         var queue = this.elements.pop();
+        var old = queue;
         var tete = this.elements[0];
         queue.x = tete.x + this.direction[0];
         queue.y = tete.y + this.direction[1];
         queue.z = tete.z + this.direction[2];
 
+
         // check for collisions
         if(this.collision(queue)){
             console.log("collision");
             clearInterval(ANIMATION);
+        }
+        if(this.onBonus(queue)){
+            console.log("bonus");
+            this.bonus.x = randint(SIZE);
+            this.bonus.y = randint(SIZE);
+            this.bonus.z = randint(SIZE);
+            this.bonus.init();
+            this.elements.push(new Element(old.x,old.y,old.z));
         }
 
         queue.init();
@@ -40,6 +61,7 @@ class Snake{
     }
 
     draw(){
+        this.bonus.draw();
         this.elements.forEach(function(elem){
             elem.draw();
         });
