@@ -46,16 +46,19 @@ class Snake{
             clearInterval(ANIMATION);
         }
         if(this.onBonus(queue)){
+			
             var snakeCollision;
             // todo: revoir cette detection en choisissant parmis une liste de cases vides
-            do{
-                this.bonus.x = randint(SIZE);
-                this.bonus.y = randint(SIZE);
-                this.bonus.z = randint(SIZE);
-                snakeCollision = this.elements.some(function(elem){
-                    return (elem.x==this.bonus.x && elem.y==this.bonus.y && elem.z==this.bonus.z)
+            var s = this;
+			do{
+                s.bonus.x = randint(SIZE);
+                s.bonus.y = randint(SIZE);
+                s.bonus.z = randint(SIZE);
+                snakeCollision = s.elements.some(function(elem){
+                    return (elem.x==s.bonus.x && elem.y==s.bonus.y && elem.z==s.bonus.z)
                 });
-            }while(!snakeCollision);
+				console.log(snakeCollision);
+            }while(snakeCollision);
             this.bonus.init();
             this.elements.push(new Element(old.x,old.y,old.z));
         }
