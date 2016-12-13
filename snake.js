@@ -36,6 +36,9 @@ class Snake{
     score() {
         this.points++;
         document.getElementById("score").innerHTML = this.points;
+        document.getElementById("bonusSound").pause();
+        document.getElementById("bonusSound").currentTime = 0;
+        document.getElementById("bonusSound").play();
     }
 
     move(){
@@ -50,6 +53,7 @@ class Snake{
         if(this.collision(queue)){
             console.log("collision");
             clearInterval(ANIMATION);
+            document.getElementById("gameOverSound").play();
         }
 
         if(this.onBonus(queue)){
