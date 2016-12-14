@@ -48,6 +48,12 @@
         <p>
             Score : <span id="score">0</span>
         </p>
+        <p>
+            sfactor <input id="sfactor" type="number" onchange="updateBlending()" value="1"><br>
+            dfactor <input id="dfactor" type="number" onchange="updateBlending()" value="6"><br>
+            blending <input id="blend" type="checkbox" onchange="updateBlending()" checked><br>
+            depth test <input id="depthtest" type="checkbox" onchange="updateBlending()" checked>
+        </p>
         <audio id="bonusSound" src="2011.wav"></audio>
         <audio id="gameOverSound" src="2019.wav"></audio>
 

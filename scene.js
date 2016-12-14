@@ -48,6 +48,45 @@ function initShaderParameters(prg){
     glContext.uniform1f(prg.uSize,SIZE);
 }
 
+function updateBlending(){
+    var depthtest = document.getElementById("depthtest").checked;
+    var blend = document.getElementById("blend").checked;
+    var sfactor= document.getElementById("sfactor").value;
+    var dfactor = document.getElementById("dfactor").value;
+
+    //console.log(dfactor,sfactor,blend,depthtest);
+
+    var constants = [
+        glContext.ZERO,
+        glContext.ONE,
+        glContext.SRC_COLOR,
+        glContext.ONE_MINUS_SRC_COLOR,
+        glContext.DST_COLOR,
+        glContext.ONE_MINUS_DST_COLOR,
+        glContext.SRC_ALPHA,
+        glContext.ONE_MINUS_SRC_ALPHAv,
+        glContext.DST_ALPHA,
+        glContext.ONE_MINUS_DST_ALPHA,
+        glContext.CONSTANT_COLOR,
+        glContext.ONE_MINUS_CONSTANT_COLOR,
+        glContext.CONSTANT_ALPHA,
+        glContext.ONE_MINUS_CONSTANT_ALPHA,
+        glContext.SRC_ALPHA_SATURATE
+    ];
+
+    if (depthtest)
+        glContext.enable(glContext.DEPTH_TEST);
+    else
+        glContext.disable(glContext.DEPTH_TEST);
+
+    if (blend)
+        glContext.enable(glContext.BLEND);
+    else
+        glContext.disable(glContext.BLEND);
+
+    glContext.blendFunc(constants[sfactor], constants[dfactor]);
+}
+
 function initScene(){
 
 	mat4.identity(pMatrix);
@@ -56,11 +95,11 @@ function initScene(){
 
 	mat4.translate(pMatrix,pMatrix,vec3.fromValues(-SIZE/2, -SIZE/2, -1.671*SIZE));
 
-    glContext.enable(glContext.DEPTH_TEST);
-	
+    updateBlending();
+
 	sceneObjects.push(new Grid(SIZE));
 
-    serpent = new Snake([-1,0,0],2);
+    serpent = new Snake([-1,0,0],30);
 	sceneObjects.push(serpent);
 
 	glContext.clearColor(0.2, 0.2, 0.2, 1.0);

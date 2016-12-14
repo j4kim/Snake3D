@@ -19,6 +19,14 @@ class Snake{
 
         this.bonus = new Bonus(randint(SIZE),randint(SIZE),randint(SIZE));
         this.points = 0;
+
+        this.casesLibres=[];
+        for(var i=0;i<SIZE;i++)
+            for(var j=0;j<SIZE;j++)
+                for(var k=0; k<SIZE; k++)
+                    this.casesLibres.push(i+''+j+''+k);
+
+        console.log(this.casesLibres);
     }
 
     collision(e){

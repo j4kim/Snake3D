@@ -1,4 +1,5 @@
-var a=1.0;
+
+var a = 1.0;
 var red =    [1.0, 0.0, 0.0, a];
 var yellow = [1.0, 1.0, 0.0, a];
 var green  = [0.0, 1.0, 0.0, a];
@@ -39,6 +40,15 @@ class Cube{
         this.size = 1;
         this.x = this.y = this.z = 0;
 
+        this.a = 1.0;
+        this.red =    [1.0, 0.0, 0.0, this.a];
+        this.yellow = [1.0, 1.0, 0.0, this.a];
+        this.green  = [0.0, 1.0, 0.0, this.a];
+        this.black  = [0.0, 0.0, 0.0, this.a];
+        this.violet = [1.0, 0.0, 1.0, this.a];
+        this.white  = [1.0, 1.0, 1.0, this.a];
+        this.cyan   = [0.0, 1.0, 1.0, this.a];
+        this.blue   = [0.0, 0.0, 1.0, this.a];
 	}
 
     init(){
@@ -77,7 +87,7 @@ class Cube{
 	}
 
 	init2(){
-        [red,yellow,green,violet,cyan,blue].forEach(function(color){
+        [this.red, this.yellow, this.green, this.violet, this.cyan, this.blue].forEach(function(color){
             // chaque face a 6 vertices, on applique cette couleur six fois
             for(var i=0;i<6;i++){
                 this.colors = this.colors.concat(color);
@@ -126,6 +136,7 @@ class Element extends Cube{
 		this.x=x;
 		this.y=y;
 		this.z=z;
+        this.a=.1;
 		this.init();
 	}
 }
