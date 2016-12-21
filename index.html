@@ -6,7 +6,26 @@
         <script src="./js/commonFunctions.js"></script>
         <script src="./js/gl-matrix.js"></script>
         <script src="./js/webglTools.js"></script>
-		<!-- import application scripts -->
+		
+		<style>
+			#canvas-container{
+				position:relative;
+				width:500px;
+				height:500px;
+			}
+			.game-menu{
+				display:none;
+				position:absolute;
+				top:0;
+				width:100%;
+				height:100%;
+				background-color:rgba(0,0,0,0.8);
+				color:white;
+			}
+			.game-menu-content{
+				padding:70px;
+			}
+		</style>
 		
 		<!-- vertex shader -->
         <script id="shader-vs" type="x-shader/x-vertex">
@@ -40,20 +59,45 @@
     </head>
 	<!-- initialize webgl onload -->
     <body>
+		<div id="container">
+			
+			<main>
+				<div id="canvas-container">
+					<!-- webgl canvas -->
+					<canvas id="webgl-canvas" width="500" height="500">
+					  HTML5 is not supported
+					</canvas>
+					<div class="game-menu" id="pause-menu">
+						<div class="game-menu-content">
+							<h2>Pause</h2>
+							<p>Appuyez sur Espace pour reprendre le jeu</p>
+						</div>
+					</div>
+					<div class="game-menu" id="gameover-menu">
+						<div class="game-menu-content">
+							<h2>Game Over</h2>
+							<p>Votre score : <span id="gameover-score">0</span></p>
+							<p>Rechargez la page pour recommencer</p>
+						</div>
+					</div>
+				</div>
+			</main>
+			
+			<aside>
+				<p>
+					Score : <span id="score">0</span>
+				</p>
+			</aside>
+		</div>
 		
-		<!-- webgl canvas -->
-		<canvas id="webgl-canvas" width="500" height="500">
-		  HTML5 is not supported
-		</canvas>
-        <p>
-            Score : <span id="score">0</span>
-        </p>
         <audio id="bonusSound" src="2011.wav"></audio>
         <audio id="gameOverSound" src="2019.wav"></audio>
 
-        <script src="./js/mouseMotionHandling.js"></script>
+        <!-- import application scripts -->
+		<script src="./js/mouseMotionHandling.js"></script>
         <script src="drawables.js"></script>
         <script src="snake.js"></script>
         <script src="scene.js"></script>
+        <script src="pauseMenu.js"></script>
     </body>
 </html>

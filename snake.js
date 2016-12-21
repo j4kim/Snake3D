@@ -54,6 +54,7 @@ class Snake{
             console.log("collision");
             clearInterval(ANIMATION);
             document.getElementById("gameOverSound").play();
+			gameOverMenu.style.display = "block";
         }
 
         if(this.onBonus(queue)){
@@ -93,4 +94,9 @@ class Snake{
             snake.move();
         }, 500);
     }
+	
+	pause(paused){
+		if (paused) clearInterval(ANIMATION);
+		else this.animate();
+	}
 }

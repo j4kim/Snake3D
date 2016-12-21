@@ -6,12 +6,17 @@ var SIZE = 7;
 var sceneObjects = [];
 
 var serpent;
+var paused = false;
+var pauseMenu = document.getElementById("pause-menu");
+var gameOverMenu = document.getElementById("gameover-menu");
 
 initWebGL();
 
 window.onkeydown = handleKeyPressed;
 
 function handleKeyPressed(ev){
+	// test pas joli au cas où on est en game over
+	if (gameOverMenu.style.display == "block") return;
     var direction = [1,0,0];
     switch(ev.keyCode){
         case 87: //w
@@ -28,12 +33,21 @@ function handleKeyPressed(ev){
             direction = [0,1,0]; break;
         case 40: //down
             direction = [0,-1,0]; break;
+        case 32: //spacebar
+            togglePause(); break;
         default: break;
     }
     serpent.direction = direction;
     //console.log(ev.keyCode);
 }
 
+function togglePause(){
+	paused = !paused;
+	serpent.pause(paused);
+	if(paused) var dis = "block";
+	else var dis = "none";
+	pauseMenu.style.display = dis;
+}
 
 function initShaderParameters(prg){
 	prg.vertexPositionAttribute = glContext.getAttribLocation(prg, "aVertexPosition");

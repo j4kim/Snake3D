@@ -115,7 +115,7 @@ class Grid extends Cube{
 	init(){
 	    super.init1();
 	    // supprime les six derniers vertices (la face avant)
-        this.vertices.splice(-6*3,6*3);
+        this.vertices.splice(-6*3, 6*3);
         super.init2();
 	}
 }
