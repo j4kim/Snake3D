@@ -51,10 +51,11 @@ class Snake{
 
         // check for collisions
         if(this.collision(queue)){
-            console.log("collision");
             clearInterval(ANIMATION);
             document.getElementById("gameOverSound").play();
+			document.getElementById("gameover-score").innerHTML = this.points;
 			gameOverMenu.style.display = "block";
+			return;
         }
 
         if(this.onBonus(queue)){
