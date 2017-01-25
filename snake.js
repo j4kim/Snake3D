@@ -7,13 +7,6 @@ function randint(max){
     return Math.floor(Math.random()*max);
 }
 
-function playSound(id) {
-    if (muted)return;
-    document.getElementById(id).pause();
-    document.getElementById(id).currentTime = 0;
-    document.getElementById(id).play();
-}
-
 function displayMessage(msg) {
     document.getElementById("bonus").innerHTML = msg;
     setTimeout(function () {
@@ -72,6 +65,7 @@ class Snake{
     }
 
     move(){
+        playSound("moveSound");
         var queue = this.elements.pop();
         var old = queue;
         var tete = this.elements[0];
@@ -111,6 +105,7 @@ class Snake{
     gameover() {
         clearInterval(ANIMATION);
         clearInterval(TIMER);
+        document.getElementById("music").pause();
         playSound("gameOverSound");
         document.getElementById("gameover-score").innerHTML = this.points;
         gameOverMenu.style.display = "block";
@@ -134,6 +129,8 @@ class Snake{
             snake.temps--;
             document.getElementById("temps").innerHTML = snake.temps;
         }, 1000);
+
+        document.getElementById("music").play();
     }
 	
 	pause(paused){
@@ -141,6 +138,8 @@ class Snake{
             console.log(ANIMATION)
             clearInterval(ANIMATION);
             clearInterval(TIMER);
+
+            document.getElementById("music").pause();
         }
         else {
             this.animate();
@@ -158,10 +157,11 @@ class Snake{
 
         if (current >= goal) {
             // level up !
+            playSound("levelUpSound");
             var cadeau = this.temps > 0 ? this.temps * this.level : 0;
             this.points += cadeau;
-            displayMessage("Bonus de niveau: " + cadeau);
             this.level++;
+            displayMessage("Level "+this.level+"<br>Bonus de niveau:&#8239;" + cadeau);
             this.temps = LEVEL_TIME;
         }
     }

@@ -24,14 +24,14 @@ function handleKeyPressed(ev){
         return;
     }
     switch(ev.keyCode){
-        case 87: //w
+        case 87: //w -> back
             serpent.direction = [0, 0, -1];
             break;
         case 65: //a
         case 37: //left
             serpent.direction = [-1, 0, 0];
             break;
-        case 83: //s
+        case 83: //s -> front
             serpent.direction = [0, 0, 1];
             break;
         case 68: //d
@@ -50,6 +50,43 @@ function handleKeyPressed(ev){
     }
     //console.log(ev.keyCode);
 }
+
+
+myScroll = new IScroll('#canvas-container', {
+    tap:true
+});
+
+myScroll.on('scrollEnd', function(){
+    if(this.distY > 50) {
+        // scroll bas
+        serpent.direction = [0, 0, 1];
+    }else if (this.distY < -50){
+        // scroll haut
+        serpent.direction = [0, 0, -1];
+    }
+});
+
+document.getElementById("canvas-container").addEventListener('click', function(e){
+    var w = parseInt(this.style.width);
+    var h = parseInt(this.style.width);
+    var left = e.offsetX;
+    var top = e.offsetY;
+    var right = w-left;
+    var bottom = h-top;
+    var choices = [
+        {dist: left, direction: [-1, 0, 0]},
+        {dist: top, direction: [0, 1, 0]},
+        {dist: bottom, direction: [0, -1, 0]},
+        {dist: right, direction: [1, 0, 0]}
+    ];
+    var min = choices[0];
+    choices.forEach(function(choice){
+        if(choice.dist < min.dist)
+            min = choice
+    });
+    serpent.direction = min.direction;
+}, false);
+
 
 function togglePause(){
 	paused = !paused;
@@ -111,7 +148,7 @@ function initWebGL(){
 function initCanvas() {
     var w = window.innerWidth;
     var h = window.innerHeight;
-    a = Math.min(w, h) * 0.75;
+    a = Math.min(w, h) * 0.7;
     var canvas = document.getElementById("webgl-canvas");
     var bonus = document.getElementById("bonus");
     canvas.width = canvas.height = a;
@@ -137,9 +174,30 @@ function toggleHelp() {
 
 function toggleMute(btn_mute) {
     if (muted) {
-        btn_mute.innerHTML = "désactiver son";
+        btn_mute.style.color = "red";
     } else {
-        btn_mute.innerHTML = "activer son";
+        btn_mute.style.color = "blue";
     }
     muted = !muted;
+}
+
+document.getElementById("music").volume = 0.8;
+function toggleMusic(btn_music){
+    var audio = document.getElementById("music");
+    if (audio.volume == 0){
+        audio.volume = 0.8;
+        btn_music.style.color = "red";
+    }else{
+        audio.volume = 0;
+        btn_music.style.color = "blue";
+    }
+}
+
+
+function playSound(id) {
+    if (muted)return;
+    var audio = document.getElementById(id);
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
 }

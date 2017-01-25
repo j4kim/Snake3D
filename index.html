@@ -6,13 +6,16 @@
         <script src="./js/commonFunctions.js"></script>
         <script src="./js/gl-matrix.js"></script>
         <script src="./js/webglTools.js"></script>
+        <script type="text/javascript" src="./js/iscroll.js"></script>
+
+        <!-- google fonts -->
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Raleway" rel="stylesheet">
 		
 		<style>
             body {
                 background-color: rgba(0, 0, 0, 0.8);
                 /*font-family: 'Raleway', sans-serif;*/
-                font-family: 'Press Start 2P', cursive;
+                font-family: 'Press Start 2P', sans-serif;
                 color: white;
             }
 
@@ -119,17 +122,20 @@
 			
 			<aside>
                 <p id="infos">
-                    Score: <span id="score">0</span>
+                    Score:&#8239;<span id="score">0</span>
                     |
-                    Level: <span id="level">1</span>
+                    Level:&#8239;<span id="level">1</span>
                     |
                     <span id="objectif"></span>
                     |
-                    Temps: <span id="temps">60</span>
+                    Temps:&#8239;<span id="temps">60</span>
                 </p>
                 <p>
                     <a onclick="toggleHelp()">aide</a>
-                    <a onclick="toggleMute(this)" style="float: right">désactiver son</a>
+                    <span style="float: right" id="audioControls">
+                        <a onclick="toggleMute(this)">son</a> |
+                        <a onclick="toggleMusic(this)">musique</a>
+                    </span>
                 </p>
                 <div id="help">
                     <p><b>Contrôles:</b></p>
@@ -164,9 +170,13 @@
                 </div>
 			</aside>
 		</div>
-		
-        <audio id="bonusSound" src="2011.wav"></audio>
-        <audio id="gameOverSound" src="2019.wav"></audio>
+
+        <!-- sons -->
+        <audio id="bonusSound" src="audio/bonus.wav"></audio>
+        <audio id="gameOverSound" src="audio/gameover.wav"></audio>
+        <audio id="levelUpSound" src="audio/levelup.wav"></audio>
+        <audio id="moveSound" src="audio/move.wav"></audio>
+        <audio id="music" src="audio/music.mp3" loop></audio>
 
         <!-- import application scripts -->
 		<script src="./js/mouseMotionHandling.js"></script>
