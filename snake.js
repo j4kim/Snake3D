@@ -1,7 +1,24 @@
 var ANIMATION;
+var PALIER = 5;
+var TIMER;
+var LEVEL_TIME = 30;
 
 function randint(max){
     return Math.floor(Math.random()*max);
+}
+
+function playSound(id) {
+    if (muted)return;
+    document.getElementById(id).pause();
+    document.getElementById(id).currentTime = 0;
+    document.getElementById(id).play();
+}
+
+function displayMessage(msg) {
+    document.getElementById("bonus").innerHTML = msg;
+    setTimeout(function () {
+        document.getElementById("bonus").innerHTML = "";
+    }, 1500);
 }
 
 class Snake{
@@ -15,10 +32,21 @@ class Snake{
         }
 
         this.direction=dir;
-        this.animate();
 
         this.bonus = new Bonus(randint(SIZE),randint(SIZE),randint(SIZE));
         this.points = 0;
+        this.level = 1;
+
+        document.getElementById("score").innerHTML = this.points;
+        document.getElementById("level").innerHTML = this.level;
+
+        this.computeDT();
+
+        this.temps = LEVEL_TIME;
+
+        this.objectif();
+
+        this.animate();
     }
 
     collision(e){
@@ -34,11 +62,13 @@ class Snake{
     }
 
     score() {
-        this.points++;
+        this.points += this.level;
+
+        this.objectif();
+
         document.getElementById("score").innerHTML = this.points;
-        document.getElementById("bonusSound").pause();
-        document.getElementById("bonusSound").currentTime = 0;
-        document.getElementById("bonusSound").play();
+        document.getElementById("level").innerHTML = this.level;
+        playSound("bonusSound");
     }
 
     move(){
@@ -50,17 +80,18 @@ class Snake{
         queue.z = tete.z + this.direction[2];
 
         // check for collisions
-        if(this.collision(queue)){
-            clearInterval(ANIMATION);
-            document.getElementById("gameOverSound").play();
-			document.getElementById("gameover-score").innerHTML = this.points;
-			gameOverMenu.style.display = "block";
-			return;
+        if (this.collision(queue)) {
+            this.gameover();
+            return;
         }
+
+        queue.init();
+
+        // ajoute l'élément au début de la liste
+        this.elements.unshift(queue);
 
         if(this.onBonus(queue)){
             var snakeCollision;
-            // todo: revoir cette detection en choisissant parmis une liste de cases vides
             var s = this;
 			do{
                 s.bonus.x = randint(SIZE);
@@ -71,15 +102,18 @@ class Snake{
                 });
             }while(snakeCollision);
             this.bonus.init();
-            // créée un nouvel élément à la fin de la liste
+            // crée un nouvel élément à la fin de la liste
             this.elements.push(new Element(old.x,old.y,old.z));
             this.score();
         }
+    }
 
-        queue.init();
-
-        // ajoute l'élément au début de la liste
-        this.elements.unshift(queue);
+    gameover() {
+        clearInterval(ANIMATION);
+        clearInterval(TIMER);
+        playSound("gameOverSound");
+        document.getElementById("gameover-score").innerHTML = this.points;
+        gameOverMenu.style.display = "block";
     }
 
     draw(){
@@ -90,14 +124,45 @@ class Snake{
     }
 
     animate(){
-        var snake=this;
+        var snake = this;
+
         ANIMATION = setInterval(function(){
             snake.move();
-        }, 500);
+        }, snake.deltaT);
+
+        TIMER = setInterval(function () {
+            snake.temps--;
+            document.getElementById("temps").innerHTML = snake.temps;
+        }, 1000);
     }
 	
 	pause(paused){
-		if (paused) clearInterval(ANIMATION);
-		else this.animate();
-	}
+        if (paused) {
+            console.log(ANIMATION)
+            clearInterval(ANIMATION);
+            clearInterval(TIMER);
+        }
+        else {
+            this.animate();
+        }
+    }
+
+    computeDT() {
+        this.deltaT = 500 * Math.pow(this.level, -0.5);
+    }
+
+    objectif() {
+        var goal = this.level * PALIER;
+        var current = this.elements.length - this.size;
+        document.getElementById("objectif").innerHTML = "Objectif: " + current + "/" + goal;
+
+        if (current >= goal) {
+            // level up !
+            var cadeau = this.temps > 0 ? this.temps * this.level : 0;
+            this.points += cadeau;
+            displayMessage("Bonus de niveau: " + cadeau);
+            this.level++;
+            this.temps = LEVEL_TIME;
+        }
+    }
 }

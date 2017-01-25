@@ -6,25 +6,59 @@
         <script src="./js/commonFunctions.js"></script>
         <script src="./js/gl-matrix.js"></script>
         <script src="./js/webglTools.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Raleway" rel="stylesheet">
 		
 		<style>
+            body {
+                background-color: rgba(0, 0, 0, 0.8);
+                /*font-family: 'Raleway', sans-serif;*/
+                font-family: 'Press Start 2P', cursive;
+                color: white;
+            }
+
+            a, a:link, a:visited {
+                color: red;
+                cursor: pointer;
+            }
+
+            a:hover {
+                color: yellow;
+            }
+
+            #container, #canvas-container {
+                margin: 0 auto;
+            }
 			#canvas-container{
 				position:relative;
-				width:500px;
-				height:500px;
 			}
-			.game-menu{
-				display:none;
+
+            #game-menu {
 				position:absolute;
 				top:0;
-				width:100%;
-				height:100%;
+                width: 50%;
+                margin: auto;
 				background-color:rgba(0,0,0,0.8);
-				color:white;
 			}
 			.game-menu-content{
-				padding:70px;
-			}
+                padding: 30px;
+                display: none;
+            }
+
+            #infos, h1 {
+                text-align: center
+            }
+
+            #help {
+                display: none;
+                font-family: 'Raleway', sans-serif;
+            }
+
+            #bonus {
+                z-index: 1;
+                position: absolute;
+                text-align: center;
+                text-shadow: 0px 0px 12px black;
+            }
 		</style>
 		
 		<!-- vertex shader -->
@@ -62,31 +96,72 @@
 		<div id="container">
 			
 			<main>
+                <h1>Snake3D</h1>
 				<div id="canvas-container">
+                    <p id="bonus"></p>
 					<!-- webgl canvas -->
-					<canvas id="webgl-canvas" width="500" height="500">
-					  HTML5 is not supported
-					</canvas>
-					<div class="game-menu" id="pause-menu">
-						<div class="game-menu-content">
+                    <canvas id="webgl-canvas">
+                        HTML5 is not supported
+                    </canvas>
+                    <div id="game-menu">
+                        <div class="game-menu-content" id="pause-menu">
 							<h2>Pause</h2>
 							<p>Appuyez sur Espace pour reprendre le jeu</p>
 						</div>
-					</div>
-					<div class="game-menu" id="gameover-menu">
-						<div class="game-menu-content">
+                        <div class="game-menu-content" id="gameover-menu">
 							<h2>Game Over</h2>
 							<p>Votre score : <span id="gameover-score">0</span></p>
-							<p>Rechargez la page pour recommencer</p>
+                            <p>Appuyez sur Espace pour recommencer</p>
 						</div>
 					</div>
 				</div>
 			</main>
 			
 			<aside>
-				<p>
-					Score : <span id="score">0</span>
-				</p>
+                <p id="infos">
+                    Score: <span id="score">0</span>
+                    |
+                    Level: <span id="level">1</span>
+                    |
+                    <span id="objectif"></span>
+                    |
+                    Temps: <span id="temps">60</span>
+                </p>
+                <p>
+                    <a onclick="toggleHelp()">aide</a>
+                    <a onclick="toggleMute(this)" style="float: right">désactiver son</a>
+                </p>
+                <div id="help">
+                    <p><b>Contrôles:</b></p>
+                    <ul>
+                        <li>
+                            Déplacements verticaux : Flèches <span style="color: cyan">haut</span> et <span
+                                style="color:red">bas</span>
+                        </li>
+                        <li>
+                            Déplacements horizontaux : Flèches <span style="color: yellow">gauche</span> et <span
+                                style="color: violet">droite</span> OU touches <span style="color: yellow">A</span> et
+                            <span style="color: violet">D</span>
+                        </li>
+                        <li>
+                            Déplacements dans la profondeur : Touches <span style="color: green">W</span> et <span
+                                style="color: blue">S</span>
+                        </li>
+                        <li>
+                            Pause : Barre d'espace
+                        </li>
+                    </ul>
+                    C'est un coup à prendre, mais une fois qu'on a compris ça va tout seul ;)
+                    <p><b>À propos:</b></p>
+                    <p>
+                        Mini-projet réalisée au sein de la Haute-École Arc - Ingénierie, section développement
+                        logiciel et multimédias, dans le cadre du cours infographie de 3ème année de Bachelor
+                    </p>
+                    <p>
+                        Joaquim Perez<br>
+                        25.01.2017
+                    </p>
+                </div>
 			</aside>
 		</div>
 		

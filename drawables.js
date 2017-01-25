@@ -15,7 +15,7 @@ class Cube{
 		this.colorBuffer = null;
 		
 		//Creation of a movement matrix specific for the object
-		this.mvMatrix = mat4.create();
+        //this.mvMatrix = mat4.create();
 		
 		/*
          0 gl.POINTS
@@ -94,7 +94,7 @@ class Cube{
     }
 	
 	draw(){
-		glContext.uniformMatrix4fv(prg.mvMatrixUniform, false, this.mvMatrix);
+        glContext.uniformMatrix4fv(prg.mvMatrixUniform, false, mvMatrix);
 		glContext.bindBuffer(glContext.ARRAY_BUFFER, this.vertexBuffer);
 		glContext.vertexAttribPointer(prg.vertexPositionAttribute, 3, glContext.FLOAT, false, 0, 0);
 		glContext.bindBuffer(glContext.ARRAY_BUFFER, this.colorBuffer);
@@ -132,7 +132,7 @@ class Element extends Cube{
 
 class Bonus extends Element{
     init2(){
-			[white,white,white,white,white,white].forEach(function(color){
+        [white, white, white, white, white, white].forEach(function (color) {
             // chaque face a 6 vertices, on applique cette couleur six fois
             for(var i=0;i<6;i++){
                 this.colors = this.colors.concat(color);

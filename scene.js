@@ -6,38 +6,48 @@ var SIZE = 7;
 var sceneObjects = [];
 
 var serpent;
-var paused = false;
+var paused = false, muted = false;
 var pauseMenu = document.getElementById("pause-menu");
 var gameOverMenu = document.getElementById("gameover-menu");
 
+initCanvas();
 initWebGL();
 
 window.onkeydown = handleKeyPressed;
 
 function handleKeyPressed(ev){
 	// test pas joli au cas où on est en game over
-	if (gameOverMenu.style.display == "block") return;
-    var direction = [1,0,0];
+    if (gameOverMenu.style.display == "block" && ev.keyCode == 32) {
+        gameOverMenu.style.display = "none";
+        initScene();
+        console.log("reinit");
+        return;
+    }
     switch(ev.keyCode){
         case 87: //w
-            direction = [0,0,-1]; break;
+            serpent.direction = [0, 0, -1];
+            break;
         case 65: //a
         case 37: //left
-            direction = [-1,0,0]; break;
+            serpent.direction = [-1, 0, 0];
+            break;
         case 83: //s
-            direction = [0,0,1]; break;
+            serpent.direction = [0, 0, 1];
+            break;
         case 68: //d
         case 39: //right
-            direction = [1,0,0]; break;
+            serpent.direction = [1, 0, 0];
+            break;
         case 38: //up
-            direction = [0,1,0]; break;
+            serpent.direction = [0, 1, 0];
+            break;
         case 40: //down
-            direction = [0,-1,0]; break;
+            serpent.direction = [0, -1, 0];
+            break;
         case 32: //spacebar
             togglePause(); break;
         default: break;
     }
-    serpent.direction = direction;
     //console.log(ev.keyCode);
 }
 
@@ -59,16 +69,18 @@ function initShaderParameters(prg){
 
     prg.uSize = glContext.getUniformLocation(prg, "uSize");
 
-    glContext.uniform1f(prg.uSize,SIZE);
+    glContext.uniform1f(prg.uSize, SIZE);
 }
 
 function initScene(){
+    sceneObjects = [];
 
 	mat4.identity(pMatrix);
 	mat4.perspective(pMatrix, degToRad(90), c_width / c_height, 0.1, 100.0);
 	mat4.identity(mvMatrix);
 
-	mat4.translate(pMatrix,pMatrix,vec3.fromValues(-SIZE/2, -SIZE/2, -1.671*SIZE));
+    // -1.671 est la valeur qui permet d'avoir toujours le même affichage avec une grille plus grande
+    mat4.translate(mvMatrix, mvMatrix, vec3.fromValues(-SIZE / 2, -SIZE / 2, -1.51 * SIZE));
 
     glContext.enable(glContext.DEPTH_TEST);
 	
@@ -77,7 +89,7 @@ function initScene(){
     serpent = new Snake([-1,0,0],2);
 	sceneObjects.push(serpent);
 
-	glContext.clearColor(0.2, 0.2, 0.2, 1.0);
+    glContext.clearColor(0.0, 0.0, 0.0, 0.0);
   
 }
 
@@ -94,4 +106,40 @@ function initWebGL(){
 	initProgram();
 	initScene();
 	renderLoop();
+}
+
+function initCanvas() {
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    a = Math.min(w, h) * 0.75;
+    var canvas = document.getElementById("webgl-canvas");
+    var bonus = document.getElementById("bonus");
+    canvas.width = canvas.height = a;
+    var cc = document.getElementById("canvas-container");
+    bonus.style.width = cc.style.width = cc.style.height = a + 'px';
+    bonus.style.top = (a / 2 - 20) + 'px';
+    var menu = document.getElementById("game-menu");
+    menu.style.left = menu.style.top = a / 4 + 'px';
+    var container = document.getElementById("container");
+    container.style.maxWidth = (100 + a) + 'px';
+}
+
+function toggleHelp() {
+    help = document.getElementById("help");
+    if (help.style.display == "block") {
+        help.style.display = "none";
+    } else {
+        help.style.display = "block";
+        if (!paused)
+            togglePause();
+    }
+}
+
+function toggleMute(btn_mute) {
+    if (muted) {
+        btn_mute.innerHTML = "désactiver son";
+    } else {
+        btn_mute.innerHTML = "activer son";
+    }
+    muted = !muted;
 }
