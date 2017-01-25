@@ -1,7 +1,5 @@
 var ANIMATION;
-var PALIER = 5;
 var TIMER;
-var LEVEL_TIME = 30;
 
 function randint(max){
     return Math.floor(Math.random()*max);
@@ -103,7 +101,8 @@ class Snake{
     }
 
     gameover() {
-        clearInterval(ANIMATION);
+        gameover=true;
+        clearTimeout(ANIMATION);
         clearInterval(TIMER);
         document.getElementById("music").pause();
         playSound("gameOverSound");
@@ -121,9 +120,15 @@ class Snake{
     animate(){
         var snake = this;
 
-        ANIMATION = setInterval(function(){
-            snake.move();
-        }, snake.deltaT);
+        function timeout(){
+            ANIMATION = setTimeout(function(){
+                if(!gameover){
+                    snake.move();
+                    timeout();
+                }
+            }, snake.deltaT);
+        }
+        timeout();
 
         TIMER = setInterval(function () {
             snake.temps--;
@@ -135,8 +140,7 @@ class Snake{
 	
 	pause(paused){
         if (paused) {
-            console.log(ANIMATION)
-            clearInterval(ANIMATION);
+            clearTimeout(ANIMATION);
             clearInterval(TIMER);
 
             document.getElementById("music").pause();
@@ -147,7 +151,7 @@ class Snake{
     }
 
     computeDT() {
-        this.deltaT = 500 * Math.pow(this.level, -0.5);
+        this.deltaT = 100 + (INITIAL_DELTA_T-100)*Math.pow(this.level, -ACCELERATION_FACTOR);
     }
 
     objectif() {
@@ -161,6 +165,7 @@ class Snake{
             var cadeau = this.temps > 0 ? this.temps * this.level : 0;
             this.points += cadeau;
             this.level++;
+            this.computeDT();
             displayMessage("Level "+this.level+"<br>Bonus de niveau:&#8239;" + cadeau);
             this.temps = LEVEL_TIME;
         }
