@@ -103,7 +103,7 @@ class Snake{
         playSound("gameOverSound");
         document.getElementById("gameover-score").innerHTML = this.points;
         gameOverMenu.style.display = "block";
-        document.getElementById("nom").focus();
+        myScroll.destroy();
     }
 
     draw(){

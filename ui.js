@@ -16,7 +16,7 @@ function initCanvas() {
 
     loadScores();
 
-    handleScroll(cc);
+    handleScroll();
 
     initWebGL();
 }
@@ -42,12 +42,13 @@ function handleKeyPressed(ev) {
     changeDirection(keyToDir[ev.keyCode]);
 }
 
-function handleScroll(scrollZone) {
+function handleScroll() {
+
+    var scrollZone = document.getElementById("canvas-container");
 
     myScroll = new IScroll(scrollZone, {
         tap: true,
-        mouseWheel: true,
-        preventDefault: false
+        mouseWheel: true
     });
 
     myScroll.on('scrollEnd', function () {
@@ -102,6 +103,7 @@ function restart() {
     if (paused)
         togglePause();
     initScene();
+    handleScroll();
     document.getElementById("envoyer").disabled = false;
 }
 
