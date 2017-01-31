@@ -5,13 +5,6 @@ function randint(max){
     return Math.floor(Math.random()*max);
 }
 
-function displayMessage(msg) {
-    document.getElementById("bonus").innerHTML = msg;
-    setTimeout(function () {
-        document.getElementById("bonus").innerHTML = "";
-    }, 1500);
-}
-
 class Snake{
 
     constructor(start=[0,0,0], size=3, dir=[1,0,0]){
@@ -38,6 +31,9 @@ class Snake{
         this.temps = LEVEL_TIME;
 
         this.objectif();
+
+        clearTimeout(ANIMATION);
+        clearInterval(TIMER);
 
         this.animate();
     }
