@@ -1,3 +1,5 @@
+/* INITIALISATION */
+
 var mvMatrix = mat4.create();
 var pMatrix = mat4.create();
 
@@ -27,7 +29,6 @@ function handleKeyPressed(ev){
         gameOverMenu.style.display = "none";
         gameover=false;
         initScene();
-        console.log("reinit");
         return;
     }
     switch(ev.keyCode){
@@ -159,18 +160,19 @@ function initWebGL(){
 }
 
 function initCanvas() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    a = Math.min(w, h) * 0.7;
     var canvas = document.getElementById("webgl-canvas");
     var bonus = document.getElementById("bonus");
-    canvas.width = canvas.height = a;
     var cc = document.getElementById("canvas-container");
+    var menu = document.getElementById("game-menu");
+    var container = document.getElementById("container");
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+
+    a = Math.min(w, h) * 0.7;
+    canvas.width = canvas.height = a;
     bonus.style.width = cc.style.width = cc.style.height = a + 'px';
     bonus.style.top = (a / 2 - 20) + 'px';
-    var menu = document.getElementById("game-menu");
     menu.style.left = menu.style.top = a / 4 + 'px';
-    var container = document.getElementById("container");
     container.style.maxWidth = (100 + a) + 'px';
 }
 

@@ -31,6 +31,8 @@ class Snake{
         document.getElementById("score").innerHTML = this.points;
         document.getElementById("level").innerHTML = this.level;
 
+        document.getElementById("music").playbackRate = 1;
+
         this.computeDT();
 
         this.temps = LEVEL_TIME;
@@ -168,6 +170,7 @@ class Snake{
             this.computeDT();
             displayMessage("Level "+this.level+"<br>Bonus de niveau:&#8239;" + cadeau);
             this.temps = LEVEL_TIME;
+            document.getElementById("music").playbackRate = INITIAL_DELTA_T / this.deltaT;
         }
     }
 }
