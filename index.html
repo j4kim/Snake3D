@@ -3,78 +3,17 @@
     <head>
         <meta charset="utf-8" />
 		<!-- import of webgl utilities -->
-        <script src="./js/commonFunctions.js"></script>
         <script src="./js/gl-matrix.js"></script>
         <script src="./js/webglTools.js"></script>
-        <script type="text/javascript" src="./js/iscroll.js"></script>
+        <script src="./js/corsRequest.js"></script>
+        <script src="./js/iscroll.js"></script>
+        <script src="./js/stats.js"></script>
 
         <!-- google fonts -->
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Raleway" rel="stylesheet">
-		
-		<style>
-            body {
-                background-color: rgba(0, 0, 0, 0.8);
-                /*font-family: 'Raleway', sans-serif;*/
-                font-family: 'Press Start 2P', sans-serif;
-                color: white;
-            }
+        <link rel="stylesheet" href="styles.css">
 
-            a, a:link, a:visited {
-                color: red;
-                cursor: pointer;
-            }
-
-            a:hover {
-                color: yellow;
-            }
-
-            #container, #canvas-container {
-                margin: 0 auto;
-            }
-			#canvas-container{
-				position:relative;
-			}
-
-            #game-menu {
-				position:absolute;
-				top:0;
-                width: 50%;
-                margin: auto;
-				background-color:rgba(0,0,0,0.8);
-			}
-			.game-menu-content{
-                padding: 30px;
-                display: none;
-            }
-
-            #infos, h1 {
-                text-align: center
-            }
-
-            #help {
-                display: none;
-                font-family: 'Raleway', sans-serif;
-            }
-
-            #bonus {
-                z-index: 1;
-                position: absolute;
-                text-align: center;
-                text-shadow: 0px 0px 12px black;
-            }
-
-            .btn {
-                width: 100%;
-                background-color: rgba(0, 0, 0, 0.25);
-                border: none;
-                color: white;
-                padding: 10px;
-            }
-
-            .btn:hover {
-                background-color: black;
-            }
-		</style>
+        <title>Snake3D</title>
 		
 		<!-- vertex shader -->
         <script id="shader-vs" type="x-shader/x-vertex">
@@ -124,11 +63,18 @@
 							<h2>Pause</h2>
 							<p>Appuyez sur Espace pour reprendre le jeu</p>
 						</div>
-                        <div class="game-menu-content" id="gameover-menu"
-                        ">
-							<h2>Game Over</h2>
-							<p>Votre score : <span id="gameover-score">0</span></p>
-                        <button class="btn" onclick="restart()">Recommencer</button>
+                        <div class="game-menu-content" id="gameover-menu">
+                            <div id="gameover-flexbox">
+                                <h2>Game Over</h2>
+                                <p>Votre score : <span id="gameover-score">0</span></p>
+                                <form id="score-form">
+                                    <input type="text" placeholder="Votre nom" id="nom" maxlength="16">
+                                    <button class="btn" id="envoyer">Envoyer</button>
+                                </form>
+                                <h3>Meilleures scores</h3>
+                                <div id="scores"></div>
+                                <button class="btn" id="recommencer" onclick="restart()">Recommencer</button>
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -213,7 +159,6 @@
         <audio id="music" src="audio/music.mp3" loop></audio>
 
         <!-- import application scripts -->
-		<script src="./js/mouseMotionHandling.js"></script>
         <script src="drawables.js"></script>
         <script src="snake.js"></script>
         <script src="scene.js"></script>

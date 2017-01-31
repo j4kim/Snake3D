@@ -44,14 +44,6 @@ function changeDirection(dir) {
     }
 }
 
-function togglePause(){
-    paused = !paused;
-    serpent.pause(paused);
-    if(paused) var dis = "block";
-    else var dis = "none";
-    pauseMenu.style.display = dis;
-}
-
 function initShaderParameters(prg){
 	prg.vertexPositionAttribute = glContext.getAttribLocation(prg, "aVertexPosition");
 	glContext.enableVertexAttribArray(prg.vertexPositionAttribute);

@@ -20,16 +20,13 @@ class Snake{
         this.bonus = new Bonus(randint(SIZE),randint(SIZE),randint(SIZE));
         this.points = 0;
         this.level = 1;
+        this.temps = LEVEL_TIME;
 
         document.getElementById("score").innerHTML = this.points;
         document.getElementById("level").innerHTML = this.level;
-
         document.getElementById("music").playbackRate = 1;
 
         this.computeDT();
-
-        this.temps = LEVEL_TIME;
-
         this.objectif();
 
         clearTimeout(ANIMATION);
@@ -106,6 +103,7 @@ class Snake{
         playSound("gameOverSound");
         document.getElementById("gameover-score").innerHTML = this.points;
         gameOverMenu.style.display = "block";
+        document.getElementById("nom").focus();
     }
 
     draw(){
