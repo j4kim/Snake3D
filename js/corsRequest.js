@@ -34,7 +34,7 @@ function makeCorsRequest(method, url, object) {
     return new Promise(function (resolve, reject) {
         var xhr = createCORSRequest(method, url);
         if (!xhr) {
-            console.error('CORS not supported');
+            alert('CORS not supported');
             return;
         }
 
@@ -44,7 +44,7 @@ function makeCorsRequest(method, url, object) {
         };
 
         xhr.onerror = function (e) {
-            console.error('Woops, there was an error making the request.', e);
+            alert('Woops, there was an error making the request.', e);
             reject(e);
         };
 
