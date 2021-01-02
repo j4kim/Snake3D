@@ -90,17 +90,16 @@ function handleScroll(scrollZone) {
 }
 
 function togglePause() {
-    if (gameover) return;
     paused = !paused;
     serpent.pause(paused);
     pauseMenu.style.display = paused ? "block" : "none";
+    startMenu.style.display = "none";
 }
 
 function restart() {
-    if (paused)
-        togglePause();
     initScene();
     document.getElementById("envoyer").disabled = false;
+    togglePause();
 }
 
 function toggleHelp() {

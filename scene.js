@@ -15,8 +15,9 @@ var SNAKE_SIZE = 2;            // [2 à n] taille initiale du serpent
 
 var sceneObjects = [];
 var serpent;
-var paused = false, gameover = false, muted = false;
+var paused = true, gameover = false, muted = false;
 var pauseMenu = document.getElementById("pause-menu");
+var startMenu = document.getElementById("start-menu");
 var gameOverMenu = document.getElementById("gameover-menu");
 
 

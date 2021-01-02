@@ -31,8 +31,6 @@ class Snake{
 
         clearTimeout(ANIMATION);
         clearInterval(TIMER);
-
-        this.animate();
     }
 
     collision(e){
@@ -97,6 +95,7 @@ class Snake{
 
     gameover() {
         gameover=true;
+        paused=true
         clearTimeout(ANIMATION);
         clearInterval(TIMER);
         document.getElementById("music").pause();
@@ -131,10 +130,11 @@ class Snake{
             document.getElementById("temps").innerHTML = snake.temps;
         }, 1000);
 
-        // document.getElementById("music").play();
+        document.getElementById("music").play();
     }
 	
 	pause(paused){
+        console.log("snake pause", paused)
         if (paused) {
             clearTimeout(ANIMATION);
             clearInterval(TIMER);
