@@ -131,7 +131,7 @@ class Snake{
             document.getElementById("temps").innerHTML = snake.temps;
         }, 1000);
 
-        document.getElementById("music").play();
+        // document.getElementById("music").play();
     }
 	
 	pause(paused){
