@@ -38,9 +38,6 @@ a:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-#pause-menu, #gameover-menu {
-}
-
 #infos, h1 {
     text-align: center
 }
@@ -72,6 +69,11 @@ a:hover {
     padding: 10px;
     background-color: black;
     font-family: 'Press Start 2P', sans-serif;
+}
+
+#nom:focus {
+    outline: none;
+    border-bottom: 1px white solid;
 }
 
 .btn:hover {
