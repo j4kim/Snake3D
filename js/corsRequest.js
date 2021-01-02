@@ -1,5 +1,3 @@
-const BASE = 'http://localhost:1234/'
-
 // code adapté de la page HTML5 Rocks : https://www.html5rocks.com/en/tutorials/cors/
 
 // Create the XHR object.
@@ -34,7 +32,7 @@ function makeCorsRequest(method, url, object) {
     //   function(error){}
     // );
     return new Promise(function (resolve, reject) {
-        var xhr = createCORSRequest(method, BASE + url);
+        var xhr = createCORSRequest(method, url);
         if (!xhr) {
             alert('CORS not supported');
             return;
