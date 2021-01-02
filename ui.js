@@ -153,7 +153,7 @@ function playSound(id) {
 }
 
 function loadScores() {
-    makeCorsRequest("GET", "http://j4kim.nexgate.ch/snake3d/getScores.php").then(function (result) {
+    makeCorsRequest("GET", "getScores.php").then(function (result) {
         document.getElementById("scores").innerHTML = result;
     });
 }
@@ -167,7 +167,7 @@ function postScore() {
     var score = document.getElementById("gameover-score").innerHTML;
     var name = document.getElementById("nom").value;
     makeCorsRequest(
-        "POST", "http://j4kim.nexgate.ch/snake3d/postScore.php",
+        "POST", "postScore.php",
         "score=" + score + "&name=" + name)
         .then(function (result) {
                 document.getElementById("envoyer").disabled = true;
