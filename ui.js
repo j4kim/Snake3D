@@ -93,9 +93,7 @@ function togglePause() {
     if (gameover) return;
     paused = !paused;
     serpent.pause(paused);
-    if (paused) var dis = "block";
-    else var dis = "none";
-    pauseMenu.style.display = dis;
+    pauseMenu.style.display = paused ? "block" : "none";
 }
 
 function restart() {
@@ -149,7 +147,7 @@ function playSound(id) {
     var audio = document.getElementById(id);
     audio.pause();
     audio.currentTime = 0;
-    // audio.play();
+    audio.play();
 }
 
 function loadScores() {
